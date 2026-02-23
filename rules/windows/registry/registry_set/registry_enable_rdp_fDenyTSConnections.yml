@@ -1,0 +1,24 @@
+title: Enable Remote Desktop via fDenyTSConnections Registry Change
+id: 9f3b4c2a-8e5f-4d61-9a8b-2f1d7c6e5a91
+status: stable
+description: Detects enabling of Remote Desktop by setting the fDenyTSConnections registry value to 0.
+author: Gaurav Mishra
+date: 2026-02-23
+references:
+  - https://attack.mitre.org/techniques/T1021/001/
+  - https://www.picussecurity.com/resource/blog/earth-krahang-apt-group-global-government-cyberespionage-campaigns-2022-2024-and-ttp-analysis
+tags:
+  - attack.lateral_movement
+  - attack.t1021.001
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection:
+    TargetObject|endswith: '\SYSTEM\CurrentControlSet\Control\Terminal Server\fDenyTSConnections'
+    Details: 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+  - Legitimate administrative enabling of RDP
+  - Group Policy based configuration changes
+level: medium
